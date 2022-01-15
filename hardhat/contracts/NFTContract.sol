@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "./Holder.sol";
+import "./Factory.sol";
 
 contract StreamableNFT is ERC721, Ownable {
     address public devAddress;
@@ -15,14 +16,23 @@ contract StreamableNFT is ERC721, Ownable {
 
     uint256 public counter;
 
+    TokenContract _factory;
+
     mapping(uint256 => Holder) public HPRecords;
 
-    constructor() ERC721("FluidNFT", "FNFT") {}
+    constructor() ERC721("FluidNFT", "FNFT") {
+        _factory = TokenContract(0x301ca2b6fd248C289e813Ba356c318462AB90EA9);
+    }
 
-    function mint() public {
+    function mint(
+        uint256 r,
+        uint256 g,
+        uint256 b
+    ) public {
         _safeMint(msg.sender, counter);
         Holder _holder = new Holder(address(this), counter);
         HPRecords[counter] = _holder;
+        _factory.handleMint(address(_holder), r, g, b);
         counter += 1;
     }
 
