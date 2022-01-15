@@ -1,0 +1,11 @@
+node_modules
+output
+metadata
+images
+cache
+
+apis/data.json
+.vscode
+artifacts
+
+*.jpg
