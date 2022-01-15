@@ -20,25 +20,40 @@ describe("Contract Deployment", function () {
       "MNFT" // Symbol
     ).then((e: any) => e.deployed());
 
-    const tokenAdd = await tokenContract._fluidToken();
+    const rAdd = await tokenContract._redValToken();
+    const gAdd = await tokenContract._greenValToken();
+    const bAdd = await tokenContract._blueValToken();
 
-    const nativeToken = await ethers.getContractAt(
-      "INativeSuperToken",
-      tokenAdd
-    );
+    const rnativeToken = await ethers.getContractAt("INativeSuperToken", rAdd);
+    const gnativeToken = await ethers.getContractAt("INativeSuperToken", gAdd);
+    const bnativeToken = await ethers.getContractAt("INativeSuperToken", bAdd);
 
     const txn1 = await tokenContract
-      .handleMint("0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873", 10 ** 9)
+      .handleMint(
+        "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873",
+        10 ** 4,
+        10 ** 4,
+        10 ** 4
+      )
       .then((e: any) => e.wait());
 
-    console.log(txn1.hash);
-
-    const bal = await nativeToken.balanceOf(
+    const rbal = await rnativeToken.balanceOf(
+      "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873"
+    );
+    const gbal = await gnativeToken.balanceOf(
+      "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873"
+    );
+    const bbal = await bnativeToken.balanceOf(
       "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873"
     );
 
     console.log("factory contract", tokenContract.address);
-    console.log("fluid token", nativeToken.address);
-    console.log("transfered ammut", bal);
+    console.log(
+      "fluid token",
+      rnativeToken.address,
+      gnativeToken.address,
+      bnativeToken.address
+    );
+    console.log("transfered ammut", rbal, gbal, bbal);
   });
 });
