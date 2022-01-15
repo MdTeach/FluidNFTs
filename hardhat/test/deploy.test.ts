@@ -15,6 +15,24 @@ describe("Contract Deployment", function () {
     const TokenContract = await ethers.getContractFactory("TokenContract");
     const tokenContract = await TokenContract.deploy(
       "0xEB796bdb90fFA0f28255275e16936D25d3418603",
+      "0x200657E2f123761662567A1744f9ACAe50dF47E6",
+      "0x609EDBC2F3Fd68C541fb4DbF45081b0997c6db3E" //receiver
+    ).then((e: any) => e.deployed());
+
+    const tokenAdd = await tokenContract._sodaToken();
+    console.log("factory contract", tokenAdd);
+
+    const nativeToken = await ethers.getContractAt(
+      "INativeSuperToken",
+      tokenAdd
+    );
+
+    console.log("Soda Token", nativeToken.address);
+  });
+  it.skip("Should be deployed", async function () {
+    const TokenContract = await ethers.getContractFactory("TokenContract");
+    const tokenContract = await TokenContract.deploy(
+      "0xEB796bdb90fFA0f28255275e16936D25d3418603",
       "0x200657E2f123761662567A1744f9ACAe50dF47E6"
     ).then((e: any) => e.deployed());
 

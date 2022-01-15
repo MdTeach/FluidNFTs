@@ -28,7 +28,8 @@ module.exports = {
       accounts: {
         mnemonic: mnemonic,
       },
-      gasPrice: 8000000000,
+      gasPrice: 15000000000,
+      gas: 2100000,
     },
     // url: "https://polygon-mainnet.g.alchemy.com/v2/vRhKZNFeA8756awUcn42DIueMSl-ruiz",
     main: {
