@@ -23,7 +23,7 @@ const App = () => {
   const [datas, setDatas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const flowRate = web3.utils.toWei("0.1"); // 2592 DAIx per month
+  const flowRate = web3.utils.toWei("0.05"); // 2592 DAIx per month
 
   const [R, setR] = useState("1000000000000000");
   const [G, setG] = useState("1000000000000000");

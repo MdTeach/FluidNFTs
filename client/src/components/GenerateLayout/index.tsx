@@ -16,9 +16,9 @@ const App = () => {
   if (!context.rgbAddress) throw Error("rgb missing");
 
   const handleMint = async () => {
-    const rValue = context.web3?.utils.toWei("200");
-    const gValue = context.web3?.utils.toWei("10");
-    const bValue = context.web3?.utils.toWei("10");
+    const rValue = context.web3?.utils.toWei("90");
+    const gValue = context.web3?.utils.toWei("240");
+    const bValue = context.web3?.utils.toWei("90");
     await context.nftContract?.methods.mint(rValue, gValue, bValue).send({
       from: context.account,
     });
