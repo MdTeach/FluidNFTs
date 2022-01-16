@@ -5,6 +5,7 @@ import {INativeSuperToken} from "@superfluid-finance/ethereum-contracts/contract
 import {ISuperfluid} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 import {ISuperTokenFactory} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperTokenFactory.sol";
 import {NativeSuperTokenProxy} from "@superfluid-finance/ethereum-contracts/contracts/tokens/NativeSuperToken.sol";
+import {ISuperfluidToken} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidToken.sol";
 
 contract TokenContract {
     ISuperfluid private _host; // host
@@ -57,14 +58,17 @@ contract TokenContract {
         public
         view
         returns (
-            uint256,
-            uint256,
-            uint256
+            int256,
+            int256,
+            int256
         )
     {
-        uint256 br = _redValToken.balanceOf(_holder);
-        uint256 bg = _greenValToken.balanceOf(_holder);
-        uint256 bb = _blueValToken.balanceOf(_holder);
+        (int256 br, , , ) = ISuperfluidToken(address(_redValToken))
+            .realtimeBalanceOfNow(_holder);
+        (int256 bg, , , ) = ISuperfluidToken(address(_greenValToken))
+            .realtimeBalanceOfNow(_holder);
+        (int256 bb, , , ) = ISuperfluidToken(address(_blueValToken))
+            .realtimeBalanceOfNow(_holder);
 
         return (br, bg, bb);
     }
