@@ -12,7 +12,7 @@ import { AbiItem } from "web3-utils";
 
 import GenerateLayout from "./components/GenerateLayout";
 import HomeLayout from "./components/LandingPage";
-
+import NFTAll from "components/NFTAll/index";
 import NFTContractJSON from "./artifacts/contracts/NFTContract.sol/StreamableNFT.json";
 import FactoryContractJSON from "./artifacts/contracts/Factory.sol/TokenContract.json";
 import Web3Context from "./contexts/Web3Context";
@@ -25,10 +25,6 @@ interface Window {
   addEventListener: any;
 }
 declare const window: Window;
-
-const sf = new SuperfluidSDK.Framework({
-  ethers: new Web3Provider(window.ethereum),
-});
 
 function App() {
   // const [isLoading, setIsLoading] = useState(true);
@@ -171,6 +167,9 @@ function App() {
             </Route>
             <Route exact path="/graph">
               <SubGraph />
+            </Route>
+            <Route exact path="/all">
+              <NFTAll />
             </Route>
           </Switch>
         </Web3Context.Provider>

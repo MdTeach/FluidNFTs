@@ -50,20 +50,26 @@ contract StreamableNFT is ERC721, Ownable {
         );
 
         string memory svgImg = getNFTMetadata(
-            uint256(rColor),
-            uint256(gColor),
-            uint256(bColor)
+            uint256(rColor) / 1 ether,
+            uint256(gColor) / 1 ether,
+            uint256(bColor) / 1 ether
         );
 
-        string memory uri = formatTokenURI(svgImg);
+        string memory uri = formatTokenURI(
+            svgImg,
+            uint256(rColor) / 1 ether,
+            uint256(gColor) / 1 ether,
+            uint256(bColor) / 1 ether
+        );
         return uri;
     }
 
-    function formatTokenURI(string memory imageURI)
-        public
-        pure
-        returns (string memory)
-    {
+    function formatTokenURI(
+        string memory imageURI,
+        uint256 r,
+        uint256 g,
+        uint256 b
+    ) public pure returns (string memory) {
         return
             string(
                 abi.encodePacked(
@@ -75,7 +81,16 @@ contract StreamableNFT is ERC721, Ownable {
                                 "Streamable NFT",
                                 '", "description":"Made on Eth Global", "attributes":"", "image":"',
                                 imageURI,
-                                '"}'
+                                '","rColor":"',
+                                Strings.toString(r),
+                                '",',
+                                '"gColor":"',
+                                Strings.toString(g),
+                                '",',
+                                '"bColor":"',
+                                Strings.toString(b),
+                                '"',
+                                "}"
                             )
                         )
                     )
