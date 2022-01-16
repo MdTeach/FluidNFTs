@@ -33,9 +33,9 @@ describe("Contract Deployment", function () {
     const txn1 = await tokenContract
       .handleMint(
         "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873",
+        20 ** 4,
         10 ** 4,
-        10 ** 4,
-        10 ** 4
+        5 ** 4
       )
       .then((e: any) => e.wait());
 

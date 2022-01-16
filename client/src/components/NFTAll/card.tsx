@@ -1,7 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
 import { useEffect, useState, useContext } from "react";
 import Web3Context from "../../contexts/Web3Context";
-
+import web3 from "web3";
 const App = ({ id }: any) => {
   const context = useContext(Web3Context);
   const [isLoading, setLoaing] = useState(true);
@@ -39,11 +39,19 @@ const App = ({ id }: any) => {
             style={{
               width: 150,
               height: 150,
-              background: `rgb(${data.rColor},${data.rColor},${data.rColor})`,
+              background: `rgb(${web3.utils.fromWei(
+                data.rColor
+              )},${web3.utils.fromWei(data.gColor)},${web3.utils.fromWei(
+                data.bColor
+              )})`,
               borderRadius: "10px",
+              border: "2px solid gray",
             }}
           />
-          <div style={{ marginTop: "6px" }}>RGB: 10 10 10</div>
+          <div style={{ marginTop: "6px" }}>
+            RGB: {web3.utils.fromWei(data.rColor)},
+            {web3.utils.fromWei(data.gColor)},{web3.utils.fromWei(data.bColor)}
+          </div>
           <div
             style={{ textAlign: "center", marginTop: "16px", fontSize: "24px" }}
           >

@@ -3,10 +3,10 @@ import Web3Context from "../../contexts/Web3Context";
 
 import NativeTokenJson from "artifacts/@superfluid-finance/ethereum-contracts/contracts/interfaces/tokens/INativeSuperToken.sol/INativeSuperToken.json";
 import HolderJson from "artifacts/contracts/Holder.sol/Holder.json";
+import { AbiItem } from "web3-utils";
 import CFAJson from "artifacts/@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol/IConstantFlowAgreementV1.json";
 
 import { Contract } from "web3-eth-contract";
-import { AbiItem } from "web3-utils";
 
 const flowRate = "1000000000000000";
 
@@ -16,9 +16,9 @@ const App = () => {
   if (!context.rgbAddress) throw Error("rgb missing");
 
   const handleMint = async () => {
-    const rValue = context.web3?.utils.toWei("20");
-    const gValue = context.web3?.utils.toWei("20");
-    const bValue = context.web3?.utils.toWei("20");
+    const rValue = context.web3?.utils.toWei("200");
+    const gValue = context.web3?.utils.toWei("10");
+    const bValue = context.web3?.utils.toWei("10");
     await context.nftContract?.methods.mint(rValue, gValue, bValue).send({
       from: context.account,
     });

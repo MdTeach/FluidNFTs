@@ -9,6 +9,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
+import HolderJson from "artifacts/contracts/Holder.sol/Holder.json";
+import { AbiItem } from "web3-utils";
+import web3 from "web3";
+
 const App = () => {
   const context = useContext(Web3Context);
   const nftAddrs = context.nftContractAddress;
@@ -19,11 +23,13 @@ const App = () => {
   const [datas, setDatas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const flowRate = web3.utils.toWei("0.1"); // 2592 DAIx per month
+
   const [R, setR] = useState("1000000000000000");
   const [G, setG] = useState("1000000000000000");
   const [B, setB] = useState("1000000000000000");
-  const [t1, setT1] = useState("0");
-  const [t2, setT2] = useState("1");
+  const [t1, setT1] = useState("1");
+  const [t2, setT2] = useState("0");
 
   useEffect(() => {
     (async () => {
@@ -34,6 +40,34 @@ const App = () => {
       setDatas(items);
     })();
   }, []);
+
+  const handleFlow = async (
+    sender: number,
+    receiver: number,
+    acceptedToken: string
+  ) => {
+    if (!context.web3) throw new Error("Error");
+
+    const senderAddress = await context.nftContract?.methods
+      .HPRecords(sender)
+      .call({ from: context.account });
+
+    const receiverAddress = await context.nftContract?.methods
+      .HPRecords(receiver)
+      .call({ from: context.account });
+
+    const holderAbi = HolderJson.abi as AbiItem[];
+    const holder_instance = new context.web3.eth.Contract(
+      holderAbi,
+      senderAddress
+    );
+
+    console.log(senderAddress, receiverAddress);
+
+    await holder_instance.methods
+      .sendFlow(acceptedToken, receiverAddress, flowRate)
+      .send({ from: context.account });
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -86,7 +120,7 @@ const App = () => {
             label="Enter sender token Id"
             defaultValue=""
             onChange={(e: any) => {
-              setT1(e.traget.value.toString());
+              //   setT1(e.traget.value);
             }}
           />
           <TextField
@@ -95,7 +129,7 @@ const App = () => {
             label="Enter sender token Id"
             defaultValue=""
             onChange={(e: any) => {
-              setT2(e.traget.value.toString());
+              //   setT2(e.traget.value);
             }}
           />
           <br />
@@ -138,7 +172,34 @@ const App = () => {
           />
         </div>
         <br />
-        <Button variant="contained">Stream</Button>
+        <Button
+          variant="contained"
+          onClick={async () => {
+            if (!context.rgbAddress) return;
+            await handleFlow(parseInt(t1), parseInt(t2), context.rgbAddress[0]);
+          }}
+        >
+          Stream Rvalue
+        </Button>
+        <Button
+          variant="contained"
+          style={{ margin: "0 50px" }}
+          onClick={async () => {
+            if (!context.rgbAddress) return;
+            await handleFlow(parseInt(t1), parseInt(t2), context.rgbAddress[1]);
+          }}
+        >
+          Stream Gvalue
+        </Button>
+        <Button
+          variant="contained"
+          onClick={async () => {
+            if (!context.rgbAddress) return;
+            await handleFlow(parseInt(t1), parseInt(t2), context.rgbAddress[2]);
+          }}
+        >
+          Stream Bvalue
+        </Button>
 
         <br />
       </Box>

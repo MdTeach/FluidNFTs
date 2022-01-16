@@ -27,14 +27,14 @@ contract StreamableNFT is ERC721, Ownable {
     }
 
     function mint(
-        uint256 r,
-        uint256 g,
-        uint256 b
+        uint256 rv,
+        uint256 gv,
+        uint256 bv
     ) public {
         _safeMint(msg.sender, counter);
         Holder _holder = new Holder(address(this), counter);
         HPRecords[counter] = _holder;
-        _factory.handleMint(address(_holder), r, g, b);
+        _factory.handleMint(address(_holder), rv, gv, bv);
         counter += 1;
     }
 
@@ -50,16 +50,16 @@ contract StreamableNFT is ERC721, Ownable {
         );
 
         string memory svgImg = getNFTMetadata(
-            uint256(rColor) / 1 ether,
-            uint256(gColor) / 1 ether,
-            uint256(bColor) / 1 ether
+            uint256(rColor),
+            uint256(gColor),
+            uint256(bColor)
         );
 
         string memory uri = formatTokenURI(
             svgImg,
-            uint256(rColor) / 1 ether,
-            uint256(gColor) / 1 ether,
-            uint256(bColor) / 1 ether
+            uint256(rColor),
+            uint256(gColor),
+            uint256(bColor)
         );
         return uri;
     }
