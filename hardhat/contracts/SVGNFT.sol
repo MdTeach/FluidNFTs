@@ -1,40 +1,28 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 import "base64-sol/base64.sol";
 
-import "./Holder.sol";
-import "./Factory.sol";
+contract NFT is ERC721 {
+    mapping(uint256 => uint256) rMap;
+    mapping(uint256 => uint256) gMap;
+    mapping(uint256 => uint256) bMap;
+    uint256 counter;
 
-contract StreamableNFT is ERC721, Ownable {
-    address public devAddress;
-    bool public isAirDropOn;
-    string public MetadataURI =
-        "https://rbxs.mypinata.cloud/ipfs/QmZibSohNuCyeF5penELA4KgzFXjSWR9REH3oM46auvDkH/";
+    constructor() ERC721("aa", "aa") {}
 
-    uint256 public counter;
-
-    TokenContract _factory;
-
-    mapping(uint256 => Holder) public HPRecords;
-
-    constructor(address _facAddress) ERC721("FluidNFT", "FNFT") {
-        _factory = TokenContract(_facAddress);
-    }
-
-    function mint(
+    function mintNFT(
         uint256 r,
         uint256 g,
         uint256 b
     ) public {
         _safeMint(msg.sender, counter);
-        Holder _holder = new Holder(address(this), counter);
-        HPRecords[counter] = _holder;
-        _factory.handleMint(address(_holder), r, g, b);
+        rMap[counter] = r;
+        gMap[counter] = g;
+        bMap[counter] = b;
         counter += 1;
     }
 
@@ -44,15 +32,10 @@ contract StreamableNFT is ERC721, Ownable {
         override
         returns (string memory)
     {
-        Holder _holder = HPRecords[_tokenId];
-        (int256 rColor, int256 gColor, int256 bColor) = _factory.getBalances(
-            address(_holder)
-        );
-
         string memory svgImg = getNFTMetadata(
-            uint256(rColor),
-            uint256(gColor),
-            uint256(bColor)
+            rMap[_tokenId],
+            gMap[_tokenId],
+            bMap[_tokenId]
         );
 
         string memory uri = formatTokenURI(svgImg);

@@ -28,6 +28,7 @@
     "@openzeppelin/contracts": "^3.4.2",
     "@openzeppelin/contracts-upgradeable": "^4.4.2",
     "@openzeppelin/hardhat-upgrades": "^1.13.0",
-    "@superfluid-finance/ethereum-contracts": "^1.0.0-rc.8"
+    "@superfluid-finance/ethereum-contracts": "^1.0.0-rc.8",
+    "base64-sol": "1.0.1"
   }
 }
