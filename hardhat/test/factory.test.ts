@@ -47,6 +47,10 @@ describe("Contract Deployment", function () {
       "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873"
     );
 
+    const balances = await tokenContract.getBalances(
+      "0x49e565ed1bdc17f3d220f72df0857c26fa83f873"
+    );
+
     console.log("factory contract", tokenContract.address);
     console.log(
       "fluid token",
@@ -54,6 +58,7 @@ describe("Contract Deployment", function () {
       gnativeToken.address,
       bnativeToken.address
     );
-    console.log("transfered ammut", rbal, gbal, bbal);
+    console.log("transfered ammut man", rbal, gbal, bbal);
+    console.log("all fetched", balances);
   });
 });

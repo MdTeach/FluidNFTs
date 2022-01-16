@@ -51,7 +51,9 @@ module.exports = {
   etherscan: {
     apiKey: polyscan_key,
   },
-  paths: {},
+  paths: {
+    artifacts: "../client/src/artifacts",
+  },
   mocha: {
     timeout: 500000,
   },

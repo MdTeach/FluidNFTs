@@ -20,8 +20,8 @@ contract StreamableNFT is ERC721, Ownable {
 
     mapping(uint256 => Holder) public HPRecords;
 
-    constructor() ERC721("FluidNFT", "FNFT") {
-        _factory = TokenContract(0x301ca2b6fd248C289e813Ba356c318462AB90EA9);
+    constructor(address _facAddress) ERC721("FluidNFT", "FNFT") {
+        _factory = TokenContract(_facAddress);
     }
 
     function mint(

@@ -8,7 +8,6 @@ import {NativeSuperTokenProxy} from "@superfluid-finance/ethereum-contracts/cont
 
 contract TokenContract {
     ISuperfluid private _host; // host
-    // IConstantFlowAgreementV1 private _cfa; // the stored constant flow agreement class address
     INativeSuperToken public _redValToken;
     INativeSuperToken public _greenValToken;
     INativeSuperToken public _blueValToken;
@@ -52,5 +51,21 @@ contract TokenContract {
         _redValToken.transfer(_holder, r);
         _greenValToken.transfer(_holder, g);
         _blueValToken.transfer(_holder, b);
+    }
+
+    function getBalances(address _holder)
+        public
+        view
+        returns (
+            uint256,
+            uint256,
+            uint256
+        )
+    {
+        uint256 br = _redValToken.balanceOf(_holder);
+        uint256 bg = _greenValToken.balanceOf(_holder);
+        uint256 bb = _blueValToken.balanceOf(_holder);
+
+        return (br, bg, bb);
     }
 }
